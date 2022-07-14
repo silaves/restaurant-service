@@ -1,6 +1,7 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 import {Request, Response} from 'express';
-import Product from '@app/model/Product'
+import Product from '@app/model/Product';
+import {ProductService} from '@app/service/productService';
 
 export class ProductController {
 
@@ -47,5 +48,22 @@ export class ProductController {
             return res.status(404).json({'message': 'Not found'});
         }
         return res.status(200).json(products);
+    }
+
+    async retrieveAllWithStock (req: Request, res: Response) {
+        const products = await Product.find().actives();
+        let productsWithStock = [];
+        for (const item of products) {
+            productsWithStock.push({
+                _id: item._id,
+                name: item.name,
+                code: item.code,
+                currentStock: await ProductService.getCurrentStock(item._id),
+            })
+        }
+        if (!products) {
+            return res.status(404).json({'message': 'Not found'});
+        }
+        return res.status(200).json(productsWithStock);
     }
 }

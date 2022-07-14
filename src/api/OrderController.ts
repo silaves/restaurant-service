@@ -140,6 +140,16 @@ export class OrderController {
         if (!order) {
             return res.status(404).json({'message': 'Not found'});
         }
+        let validateStatus = true;
+        for (const detail of order.details) {
+            if (detail.status === OrderDetailType.PENDING) {
+                validateStatus = false;
+                break;
+            }
+        }
+        if (!validateStatus) {
+            return res.status(422).json({'message': 'Already exists details with pending status'});
+        }
         order.status = OrderType.FINISHED;
         order.endDate = Date.now();
         await order.save();

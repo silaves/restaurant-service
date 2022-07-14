@@ -10,7 +10,8 @@ type DatabaseConfig = {
 
 export type Configuration = {
     port: number;
-    farmerMarketApi: string,
+    farmerMarketApi: string;
+    appViteUrl: string;
     dataBase: DatabaseConfig;
 }
 
@@ -23,6 +24,7 @@ const registerConfiguration = (container: AwilixContainer<IConfigCradle>): void 
         appConfig: asValue({
             port: parseInt(process.env.PORT!),
             farmerMarketApi: process.env.FARMER_MARKET_API!,
+            appViteUrl: process.env.APP_VITE_URL!,
             dataBase: {
                 user: process.env.MONGO_USERNAME,
                 password: process.env.MONGO_PASSWORD,

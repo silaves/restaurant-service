@@ -25,11 +25,11 @@ const registerStartUp = (container: AwilixContainer<IStartUpCradle>): void => {
             router.use('/recipe', RecipeRoute as Router);
             return router;
         }),
-        express: asFunction( ({ router }) => {
+        express: asFunction( ({ router, appConfig }) => {
             const app = express();
             app.use(helmet());
             app.use(cors({
-                origin: 'http://localhost:2000'
+                origin: appConfig.appViteUrl,
             }));
             app.use(requestLogger);
             app.use(errorLogger);

@@ -58,7 +58,7 @@ export class RecipeController {
 
     async retrieve (req: Request, res: Response) {
         const recipeId = req.params.id;
-        const recipe = await Recipe.findById(recipeId).activeOne();
+        const recipe = await Recipe.findById(recipeId).activeOne().populate('product').populate('details.product');
         if (!recipe) {
             return res.status(404).json({'message': 'Not found'});
         }
