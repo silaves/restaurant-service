@@ -83,7 +83,8 @@ export class RecipeController {
             const recipes = await Recipe.find(filterRecipe).actives().populate('product');
             return res.status(200).json(recipes);
         } else {
-            return res.status(200).json([]);
+            const recipes = await Recipe.find().actives().populate('product');
+            return res.status(200).json(recipes);
         }
     }
 }
